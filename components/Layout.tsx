@@ -59,7 +59,6 @@ const Layout = ({children}: any) => {
   }
 
   const resetOnLogoClick = () => {
-    // router.push('/')
     setValue('')
     setCurrentPage(1)
   }

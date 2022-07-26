@@ -1,4 +1,5 @@
 import styles from '../styles/Card.module.scss'
+import Image from 'next/image'
 
 const Card = ({...params}) => {
 
@@ -6,10 +7,12 @@ const Card = ({...params}) => {
 
   return (
     <div className={styles.card_container}>
-      <img 
+      <Image 
         className={styles.card_image} 
         src={`${params.image_url === null ? defaultImage : params.image_url}`}
-        alt={params.name} 
+        alt={params.name}
+        width={'100%'}
+        height={'200px'}
       />
       <h2 className={styles.card_header}>{params.name}</h2>
       <p className={styles.card_description}>
