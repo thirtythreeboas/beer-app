@@ -1,0 +1,33 @@
+.main-container {
+  display: flex;
+  justify-content: center;;
+  padding: 10px 0;
+}
+
+.main {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: clamp(400px, 100%, 968px);
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.preudo_elem {
+  display: flex;
+  max-width: 230px;
+  width: 100%;
+  padding: 1.5em;
+}
+
+@media (max-width: 750px) {
+  .main {
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 550px) {
+  .main {
+    justify-content: center;
+  }
+}
