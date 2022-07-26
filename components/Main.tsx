@@ -44,7 +44,7 @@ const Main = () => {
     if (pseudoElems.length === 0 || pseudoElems === undefined || pseudoElems === null) return;
     // return pseudoElems.length
     return pseudoElems.map((e: any, index: number) => (
-          <div className={styles.preudo_elem}></div>
+          <div key={index} className={styles.preudo_elem}></div>
         ))
   }
 

@@ -17,7 +17,7 @@ const Nav = (props: Props) => {
         <Link href='/'>
           <div className={styles.logo} onClick={() => resetOnLogoClick()}>
             <h3>Beer</h3>
-            <span>Where there's beer there's hope</span>
+            <span>Where there&apos;s beer there&apos;s hope</span>
           </div>
         </Link>
         <form className={styles.input_form}>
