@@ -14,7 +14,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths,
-    fallback: true 
+    fallback: false 
   }
 }
 
@@ -22,25 +22,32 @@ export const getStaticProps = async (context: any) => {
   const id = context.params.id
   const res = await fetch('https://api.punkapi.com/v2/beers/' + id)
   const data = await res.json()
+  const obj = data[0]
   return {
-    props: { beer: data[0]}
+    props: { beer: obj}
   }
 }
 
 const Beer = ( { beer }: any ) => {
 
+  console.log(beer)
+
+  const { name, image_url, tagline, abv, description, food_pairing } = beer
+
   const defaultImage: string = 'https://media.istockphoto.com/vectors/no-image-available-sign-vector-id922962354?k=20&m=922962354&s=612x612&w=0&h=f-9tPXlFXtz9vg_-WonCXKCdBuPUevOBkp3DQ-i0xqo='
+
+  if (beer === undefined) return <div>Undefined</div>
 
   return (
     <div className={styles.beer_card}>
       <Head>
-        <title>{`${beer.name} | Beer`}</title>
+        <title>{`${name} | Beer`}</title>
       </Head>
 
       <div className={styles.img_container}>
         <h2>{beer.name}</h2>
         <Image
-          src={`${beer.image_url === null ? defaultImage : beer.image_url}`} 
+          src={`${image_url === null ? defaultImage : image_url}`} 
           width={'100%'}
           height={'200px'}
           alt={beer.name} />
@@ -48,7 +55,7 @@ const Beer = ( { beer }: any ) => {
 
       <div className={styles.details}>
 
-        <h2>{beer.tagline}</h2>
+        <h2>{tagline}</h2>
 
         <dl className={styles.dl_styles}>
           <dt className={styles.dt_styles}><span>Name</span></dt>
@@ -56,15 +63,15 @@ const Beer = ( { beer }: any ) => {
         </dl>
         <dl className={styles.dl_styles}>
           <dt className={styles.dt_styles}><span>Alcohol by volume</span></dt>
-          <dd className={styles.dd_styles}>{beer.abv}</dd>
+          <dd className={styles.dd_styles}>{abv}</dd>
         </dl>
         <dl className={styles.dl_styles}>
           <dt className={styles.dt_styles}><span>Description</span></dt>
-          <dd className={styles.dd_styles}>{beer.description}</dd>
+          <dd className={styles.dd_styles}>{description}</dd>
         </dl>
         <dl className={styles.dl_styles}>
           <dt className={styles.dt_styles}><span>Foor pairing</span></dt>
-          <dd className={styles.dd_styles}>{beer.food_pairing.map((e: string) => `${e}, `)}</dd>
+          <dd className={styles.dd_styles}>{food_pairing.map((e: string, index: number) => <span key={e + index}>{e}</span>)}</dd>
         </dl>
       </div>
 

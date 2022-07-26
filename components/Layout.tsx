@@ -16,27 +16,30 @@ const Layout = ({children}: any) => {
 
 
   useEffect(() => {
+    
+    const getBeers = async () => {
+      const link: string = `https://api.punkapi.com/v2/beers?page=${currentPage}&per_page=${postsPerPage}`
+      const res = await fetch(link)
+      const json = await res.json()
+      setData([...json])
+      setIsLoading(false)
+      console.log(data)
+    }
+  
+    const getSearchResults = async () => {
+      if (value.length === 0) return
+      const link: string = `https://api.punkapi.com/v2/beers?beer_name=${value}`
+      const res = await fetch(link)
+      const json = await res.json()
+      setSearchResults([...json])
+      setIsLoading(false)
+    }
+
     if (value) getSearchResults()
     getBeers()
     window.scrollTo(0, 0)
   }, [currentPage, value])
 
-  const getBeers = async () => {
-    const link: string = `https://api.punkapi.com/v2/beers?page=${currentPage}&per_page=${postsPerPage}`
-    const res = await fetch(link)
-    const json = await res.json()
-    setData([...json])
-    setIsLoading(false)
-  }
-
-  const getSearchResults = async () => {
-    if (value.length === 0) return
-    const link: string = `https://api.punkapi.com/v2/beers?beer_name=${value}`
-    const res = await fetch(link)
-    const json = await res.json()
-    setSearchResults([...json])
-    setIsLoading(false)
-  }
 
   const paginate = (pageNumber: number) => {
     if (pageNumber !== currentPage) setIsLoading(true)
