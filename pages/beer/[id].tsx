@@ -14,7 +14,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false 
+    fallback: true 
   }
 }
 
@@ -30,13 +30,12 @@ export const getStaticProps = async (context: any) => {
 
 const Beer = ( { beer }: any ) => {
 
-  console.log(beer)
+  if (beer === undefined) return <div>Undefined</div>
 
   const { name, image_url, tagline, abv, description, food_pairing } = beer
 
   const defaultImage: string = 'https://media.istockphoto.com/vectors/no-image-available-sign-vector-id922962354?k=20&m=922962354&s=612x612&w=0&h=f-9tPXlFXtz9vg_-WonCXKCdBuPUevOBkp3DQ-i0xqo='
 
-  if (beer === undefined) return <div>Undefined</div>
 
   return (
     <div className={styles.beer_card}>

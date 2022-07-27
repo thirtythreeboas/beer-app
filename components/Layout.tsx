@@ -23,7 +23,6 @@ const Layout = ({children}: any) => {
       const json = await res.json()
       setData([...json])
       setIsLoading(false)
-      console.log(data)
     }
   
     const getSearchResults = async () => {
