@@ -45,11 +45,14 @@ const Beer = ( { beer }: any ) => {
 
       <div className={styles.img_container}>
         <h2>{beer.name}</h2>
-        <Image
-          src={`${image_url === null ? defaultImage : image_url}`} 
-          width={'100%'}
-          height={'200px'}
-          alt={beer.name} />
+        <div className={styles.beer_ing_box}>
+          <Image
+            src={`${image_url === null ? defaultImage : image_url}`} 
+            width={'100%'}
+            height={'200px'}
+            alt={beer.name} 
+          />
+        </div>
       </div>
 
       <div className={styles.details}>
