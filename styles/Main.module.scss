@@ -13,13 +13,6 @@
   margin: 0 auto;
 }
 
-.preudo_elem {
-  display: flex;
-  max-width: 230px;
-  width: 100%;
-  padding: 1.5em;
-}
-
 @media (max-width: 750px) {
   .main {
     justify-content: space-around;

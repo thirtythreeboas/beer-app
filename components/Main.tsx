@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
 import styles from '../styles/Main.module.scss'
-import Link from 'next/link'
 import Card from './Card'
 import LoadingPage from './LoadingPage'
 import Pagination from './Pagination'
@@ -8,82 +7,60 @@ import { Through } from './Layout'
 
 const Main = () => {
 
-  const [resultPagination, setResultPagination] = useState<any[]>([]) 
+  const [resultPagination, setResultPagination] = useState<any[]>([])
+  const [totalPages, setTotalPages] = useState<number>(0)
 
   const {
     data,
     currentPage,
     isLoading,
     paginate,
-    searchResults,
-    value
+    searchResults
   } = useContext(Through)
 
   useEffect(() => {
-    if (searchResults.length === 0 || searchResults === undefined) return
-    const newArr = breakResultsIntoPieces(searchResults, 12)
-    setResultPagination([...newArr])
+    if (searchResults.length === 0) {
+      setResultPagination([])
+    } else {
+      const newArr = breakResultsIntoPieces(searchResults, 12)
+      setTotalPages(newArr.length)
+      setResultPagination([...newArr])
+    }
   }, [searchResults])
 
-  if (isLoading) return <LoadingPage />
+  const dataToDisplay = resultPagination.length !== 0 ?  resultPagination[currentPage - 1] : data
   
   function breakResultsIntoPieces(arr: any[], size: number) {
     const res = [];
     for (let i = 0; i < arr.length; i += size) {
-        const sorted = arr.slice(i, i + size);
-        res.push(sorted);
+      const sorted = arr.slice(i, i + size);
+      res.push(sorted);
+    }
+    const lastPage = res[res.length - 1].length
+    if (lastPage !== 4 && lastPage !== 8 && lastPage !== 12 && lastPage !== 1) {
+      let pseudoElems: any[] = new Array(lastPage % 2 === 0 ? 2 : 1).fill({type: 'pseudo'})
+      for (let i = 0; i < pseudoElems.length; i++) {
+        res[res.length - 1].push(pseudoElems[i]);
+      }
     }
     return res;
   }
 
-
-  // создаёт псевдо элементы, на случай если количество элементов на странице: 2, 3, 6, 7, 10, 11, так как при свойстве jusify-content: space-between лэйаут ломается и элементы выравнены не гармонично и не однородно
-  const DisplayPseudoElements = (arr: any[]) => {
-    let dif = arr.length % 12;
-    let pseudoElems: any[] = new Array(dif % 2 === 0 ? 2 : 1).fill(0)
-    if (pseudoElems.length === 0 || pseudoElems === undefined || pseudoElems === null) return;
-    // return pseudoElems.length
-    return pseudoElems.map((e: any, index: number) => (
-          <div key={index} className={styles.preudo_elem}></div>
-        ))
-  }
+  if (isLoading) return <LoadingPage />
 
   return (
     <>
       <div className={styles.main}>
         {
-          !value || value === undefined || resultPagination === undefined || resultPagination.length === 0
-          ? 
-          data.map((e: any) => (
-            <Link key={e.id} href={`/beer/${e.id}`}>
-              <a>
-                <Card {...e} />
-              </a>
-            </Link>
+          dataToDisplay.map((e: any) => (
+                <Card key={e.id} {...e} />
           ))
-          :
-          resultPagination[currentPage - 1].map((e: any) => (
-            <Link key={e.id} href={`/beer/${e.id}`}>
-              <a>
-                <Card {...e} />
-              </a>
-            </Link>
-          ))
-        }
-        {
-          resultPagination === undefined || resultPagination.length === 0 
-          ?
-          null
-          :
-          DisplayPseudoElements(resultPagination[currentPage - 1])
         }
       </div>
       <Pagination
         currentPage={currentPage}
         paginate={paginate}
-        searchResults={searchResults}
-        value={value}
-        totalPages={resultPagination.length}
+        resultPagination={resultPagination}
       />
     </>
   )

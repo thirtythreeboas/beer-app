@@ -16,7 +16,7 @@ const Layout = ({children}: any) => {
 
 
   useEffect(() => {
-    
+    if (searchResults.length !== 0) return
     const getBeers = async () => {
       const link: string = `https://api.punkapi.com/v2/beers?page=${currentPage}&per_page=${postsPerPage}`
       const res = await fetch(link)
@@ -24,43 +24,46 @@ const Layout = ({children}: any) => {
       setData([...json])
       setIsLoading(false)
     }
-  
-    const getSearchResults = async () => {
-      if (value.length === 0) return
-      const link: string = `https://api.punkapi.com/v2/beers?beer_name=${value}`
-      const res = await fetch(link)
-      const json = await res.json()
-      setSearchResults([...json])
-      setIsLoading(false)
-    }
-
-    if (value) getSearchResults()
     getBeers()
     window.scrollTo(0, 0)
-  }, [currentPage, value])
+  }, [currentPage])
 
+
+  const getSearchResults = async () => {
+    if (value.length === 0) return
+    const link: string = `https://api.punkapi.com/v2/beers?beer_name=${value}`
+    const res = await fetch(link)
+    const json = await res.json()
+    setSearchResults([...json])
+    setIsLoading(false)
+  }
 
   const paginate = (pageNumber: number) => {
-    if (pageNumber !== currentPage) setIsLoading(true)
+    // if (pageNumber !== currentPage) setIsLoading(true)
     setCurrentPage(pageNumber)
-    window.addEventListener('scroll', () => true)
+    // window.addEventListener('scroll', () => true)
+    window.scrollTo(0, 0)
   }
 
   const router = useRouter()
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let event = (e.target as HTMLInputElement).value
+    setValue((event))
+  }
+  
+  const handleSubmit = (e: React.FormEvent) => {
     if (router.pathname !== '/') {
-      console.log('here')
       router.push('/')
     }
-    
-    let event = (e.target as HTMLInputElement).value
-    if (event.length === 0) setSearchResults([])
-    setValue((event))
+    if (value.length === 0) setSearchResults([])
+    getSearchResults()
     setCurrentPage(1)
+    e.preventDefault()
   }
 
   const resetOnLogoClick = () => {
+    setSearchResults([])
     setValue('')
     setCurrentPage(1)
   }
@@ -72,12 +75,12 @@ const Layout = ({children}: any) => {
         currentPage,
         isLoading,
         paginate,
-        searchResults,
-        value
+        searchResults
       }}>
         <Nav
           value={value}
           handleChange={handleChange}
+          handleSubmit={handleSubmit}
           resetOnLogoClick={resetOnLogoClick}
         />
         {children}

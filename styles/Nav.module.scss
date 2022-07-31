@@ -45,10 +45,10 @@
   padding: 10px;
   cursor: pointer;
   color: #000;
-  // &:hover {
-  //   background-color: rgb(156, 30, 30);
-  //   color: #fff;
-  // }
+  &:hover {
+    background-color: rgb(156, 30, 30);
+    color: #fff;
+  }
 }
 
 .input_field {

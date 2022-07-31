@@ -4,12 +4,13 @@ import Link from 'next/link'
 interface Props {
   value: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: React.FormEvent) => void;
   resetOnLogoClick: () => void;
 }
 
 const Nav = (props: Props) => {
 
-  const { value, resetOnLogoClick, handleChange } = props
+  const { value, resetOnLogoClick, handleChange, handleSubmit } = props
 
   return (
     <div className={styles.nav_main_container}>
@@ -20,11 +21,15 @@ const Nav = (props: Props) => {
             <span>Where there&apos;s beer there&apos;s hope</span>
           </div>
         </Link>
-        <form className={styles.input_form}>
+        <form 
+          className={styles.input_form} 
+          onSubmit={(e) => handleSubmit(e)}
+        >
           <button
             type='submit'
-            className={styles.search_button} 
-            disabled
+            className={styles.search_button}
+            // onSubmit={(e) => handleSubmit(e)}
+            // disabled
           >
             Search...
           </button>

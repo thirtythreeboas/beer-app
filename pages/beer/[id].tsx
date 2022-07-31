@@ -73,7 +73,7 @@ const Beer = ( { beer }: any ) => {
         </dl>
         <dl className={styles.dl_styles}>
           <dt className={styles.dt_styles}><span>Foor pairing</span></dt>
-          <dd className={styles.dd_styles}>{food_pairing.map((e: string, index: number) => <span key={e + index}>{e}</span>)}</dd>
+          <dd className={styles.dd_styles}>{food_pairing.map((e: string, index: number) => <span key={e + index}>{`${e}, `}</span>)}</dd>
         </dl>
       </div>
 
