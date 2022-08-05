@@ -38,12 +38,7 @@ const Layout = ({children}: any) => {
     setIsLoading(false)
   }
 
-  const paginate = (pageNumber: number) => {
-    // if (pageNumber !== currentPage) setIsLoading(true)
-    setCurrentPage(pageNumber)
-    // window.addEventListener('scroll', () => true)
-    window.scrollTo(0, 0)
-  }
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 
   const router = useRouter()
   

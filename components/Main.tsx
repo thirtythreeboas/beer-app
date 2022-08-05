@@ -8,7 +8,6 @@ import { Through } from './Layout'
 const Main = () => {
 
   const [resultPagination, setResultPagination] = useState<any[]>([])
-  const [totalPages, setTotalPages] = useState<number>(0)
 
   const {
     data,
@@ -23,7 +22,6 @@ const Main = () => {
       setResultPagination([])
     } else {
       const newArr = breakResultsIntoPieces(searchResults, 12)
-      setTotalPages(newArr.length)
       setResultPagination([...newArr])
     }
   }, [searchResults])

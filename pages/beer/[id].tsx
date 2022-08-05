@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 
 export const getStaticPaths = async () => {
+  console.log('first')
   const res = await fetch('https://api.punkapi.com/v2/beers')
   const data = await res.json()
 
@@ -19,6 +20,7 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = async (context: any) => {
+  console.log('second')
   const id = context.params.id
   const res = await fetch('https://api.punkapi.com/v2/beers/' + id)
   const data = await res.json()
